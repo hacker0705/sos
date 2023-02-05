@@ -1,0 +1,50 @@
+<button id="connect-button">Connect to Phantom</button>
+<button id="send-transaction-button">Send Transaction</button>
+
+<script>
+  // Connect to Phantom extension
+  const Phantom = window.Phantom;
+
+  // Create function to connect to Phantom extension
+  async function connectToPhantom() {
+    try {
+      // Connect to Solana network
+      await Phantom.connect('mainnet');
+      console.log('Connected to Phantom extension');
+    } catch (error) {
+      console.error('Failed to connect to Phantom: ', error);
+    }
+  }
+
+  // Create transaction function
+  async function createTransaction() {
+    // Send 0.001 SOL to specified wallet
+    const recipientAddress = 'your-wallet-address';
+    const amount = 0.001;
+
+    try {
+      // Get user account
+      const account = await Phantom.account();
+
+      // Create transaction object
+      const transaction = {
+        recipient: recipientAddress,
+        amount: amount,
+      };
+
+      // Sign and send transaction
+      await account.sendTransaction(transaction);
+      console.log('Transaction sent successfully!');
+    } catch (error) {
+      console.error('Transaction failed: ', error);
+    }
+  }
+
+  // Button to connect to Phantom extension
+  const connectButton = document.getElementById('connect-button');
+  connectButton.addEventListener('click', connectToPhantom);
+
+  // Button to trigger transaction
+  const sendTransactionButton = document.getElementById('send-transaction-button');
+  sendTransactionButton.addEventListener('click', createTransaction);
+</script>
